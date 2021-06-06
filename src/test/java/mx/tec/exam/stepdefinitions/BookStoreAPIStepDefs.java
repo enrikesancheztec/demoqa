@@ -75,4 +75,11 @@ public class BookStoreAPIStepDefs {
 		JsonNode root = mapper.readTree(response.getBody());
 		assertFalse(root.path(property).isMissingNode());
 	}
+	
+	@And("a {string} property is {string}")
+	public void a_property_is(String property, String value) throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode root = mapper.readTree(response.getBody());
+		assertEquals(value, root.path(property).asText());
+	}		
 }

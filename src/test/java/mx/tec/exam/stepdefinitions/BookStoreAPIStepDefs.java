@@ -45,6 +45,18 @@ public class BookStoreAPIStepDefs {
 		response = restTemplate.exchange("https://demoqa.com/Account/v1/Authorized",
 				HttpMethod.POST, entity, String.class);
 	}
+	
+	@When("the client calls \\/Account\\/v1\\/GenerateToken with username {string} and password {string}")
+	public void the_client_calls_account_v1_generate_token_with_username_and_password(String username, String password) {
+		Map<String, String> body = new HashMap<>();
+		body.put("userName", username);
+		body.put("password", password);
+
+		HttpEntity<Map<String, String>> entity = new HttpEntity<Map<String, String>>(body, headers);
+		
+		response = restTemplate.exchange("https://demoqa.com/Account/v1/GenerateToken",
+				HttpMethod.POST, entity, String.class);
+	}	
 
 	@Then("the client receives status code of {int}")
 	public void the_client_receives_status_code_of(int statusCode) {
@@ -55,5 +67,12 @@ public class BookStoreAPIStepDefs {
 	public void the_client_receives_response(String responseMessage) throws IOException {
 		String body = response.getBody();
 		assertEquals(responseMessage, body);
+	}
+	
+	@And("a {string} property is provided")
+	public void a_property_is_provided(String property) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode root = mapper.readTree(response.getBody());
+		assertFalse(root.path(property).isMissingNode());
 	}
 }

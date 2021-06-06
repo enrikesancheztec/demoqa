@@ -56,4 +56,16 @@ public class BookStoreWebStepDefs {
         assertEquals(displayedMessage, message);
         driver.quit();
 	}	
+	
+	@Then("the border color of the credential fields is red")
+	public void the_border_color_of_the_credential_fields_is_red() throws InterruptedException {
+        // Since this is a One Single Page application. Use the sleep to wait for the page to be updated        
+        Thread.sleep(5000);
+        
+        WebElement usernameField = driver.findElement(By.id("userName"));
+        String boderColor = usernameField.getCssValue("border-color");
+        
+        assertEquals("rgb(220, 53, 69)", boderColor);
+        driver.quit();
+	}	
 }

@@ -45,4 +45,15 @@ public class BookStoreWebStepDefs {
         assertEquals(pageTitle, title);
         driver.quit();
     }
+	
+	@Then("the message {string} is displayed")
+	public void the_message_is_displayed(String displayedMessage) throws InterruptedException {
+        // Since this is a One Single Page application. Use the sleep to wait for the page to be updated        
+        Thread.sleep(5000);
+        
+        String message = driver.findElement(By.xpath("//p[@class='mb-1']")).getText();                
+        
+        assertEquals(displayedMessage, message);
+        driver.quit();
+	}	
 }
